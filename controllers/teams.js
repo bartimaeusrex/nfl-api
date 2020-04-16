@@ -14,4 +14,4 @@ const getTeamById = (request, response) => {
     : response.sendStatus(404)
 }
 
-module.exports = { getAllTeams, getTeamById}
+module.exports = { getAllTeams, getTeamById }

@@ -7,9 +7,9 @@ app.get('/teams', getAllTeams)
 
 app.get('/teams/:id', getTeamById)
 
-// app.all('*', (request, response) => {
-//   return response.sendStatus(404).send('Oh no! Not found!')
-// })
+app.all('*', (request, response) => {
+  return response.sendStatus(404).send('Oh no! Not found!')
+})
 
 app.listen(8080, () => {
   // eslint-disable-next-line no-console
