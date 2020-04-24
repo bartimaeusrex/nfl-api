@@ -1,4 +1,12 @@
+-- Commenting! Yay! The above comes from slide 19
+
+SELECT * FROM teams WHERE id = '1';
+
 CREATE DATABASE nfl;
+
+CREATE USER 'teams'@'localhost' IDENTIFIED WITH mysql_native_password BY 'funky##Chicken';
+
+GRANT ALL ON teams.* TO 'teams'@'localhost';
 
 USE teams;
 
@@ -9,8 +17,8 @@ CREATE TABLE teams (
   location VARCHAR(255),
   mascot VARCHAR(255),
   abbreviation VARCHAR(255),
-  conference VARCHAR(255),
-  division VARCHAR(255),
+  conference ENUM('afc', 'nfc'),
+  division ENUM('north', 'east', 'south', 'west'),
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deletedAt DATETIME,
