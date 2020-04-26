@@ -1,26 +1,20 @@
--- Commenting! Yay! The above comes from slide 19
-
-SELECT * FROM teams WHERE id = '1';
-
 CREATE DATABASE nfl;
 
-CREATE USER 'teams'@'localhost' IDENTIFIED WITH mysql_native_password BY 'funky##Chicken';
+CREATE USER 'football'@'localhost' IDENTIFIED WITH mysql_native_password BY 'F00tB4LL!';
 
-GRANT ALL ON teams.* TO 'teams'@'localhost';
+GRANT ALL ON nfl.* TO 'football'@'localhost';
 
-USE teams;
-
-SHOW TABLES;
+USE nfl;
 
 CREATE TABLE teams (
   id INT auto_increment,
   location VARCHAR(255),
   mascot VARCHAR(255),
   abbreviation VARCHAR(255),
-  conference ENUM('afc', 'nfc'),
-  division ENUM('north', 'east', 'south', 'west'),
-  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  conference ENUM('AFC', 'NFC'),
+  division ENUM('North', 'South', 'East', 'West'),
+  createdAt DATETIME DEFAULT NOW(),
+  updatedAt DATETIME DEFAULT NOW() ON UPDATE NOW(),
   deletedAt DATETIME,
   PRIMARY KEY(id)
 );
@@ -87,5 +81,3 @@ INSERT INTO teams (location, mascot, abbreviation, conference, division)
   VALUES ('San Francisco', '49ers', 'SF', 'NFC', 'West');
 INSERT INTO teams (location, mascot, abbreviation, conference, division)
   VALUES ('Seattle', 'Seahawks', 'Sea', 'NFC', 'West');
-
-SELECT location, mascot, abbreviation, conference, division FROM teams;

@@ -1,9 +1,7 @@
-const teams = require('../teams') // THIS LINE TO BE DELETED
 const models = require('../models')
 
-
 const getAllTeams = async (request, response) => {
-  const teams = await models.teams.findAll()
+  const teams = await models.Teams.findAll()
 
   return response.send(teams)
 }
@@ -11,21 +9,12 @@ const getAllTeams = async (request, response) => {
 const getTeamById = async (request, response) => {
   const { id } = request.params
 
-  const matchingTeam = await teams.find((team) => team.id === Number(id))
-  //   const foundHero = await models.heroes.findOne({ where: { slug } })
+  const matchingTeam = await models.Teams.findOne({ where: { id } })
 
   return matchingTeam
     ? response.send(matchingTeam)
     : response.sendStatus(404)
 }
-
-// const getNewId = () => {
-//   const lastId = teams.reduce((acc, team) => {
-//     return team.id > acc ? team.id : acc
-//   }, 0)
-
-//   return lastId + 1
-// }
 
 const saveNewTeam = async (request, response) => {
   const {
@@ -33,11 +22,13 @@ const saveNewTeam = async (request, response) => {
   } = request.body
 
   if (!location || !mascot || !abbreviation || !conference || !division) {
-    return response.status(400).send('All fields are required.')
+    return response
+      .status(400)
+      .send('The following fields are required: location, mascot, abbreviation, conference, division')
   }
 
-  const newTeam = await models.teams.create({
-    location, mascot, abbreviation, conference, division, id: getNewId()
+  const newTeam = await models.Teams.create({
+    location, mascot, abbreviation, conference, division
   })
 
   return response.status(201).send(newTeam)

@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize')
-const teamsModel = require('./teams')
+const TeamsModel = require('./teams')
 
-const connection = new Sequelize('teams', 'teams', 'funky##Chicken', {
-  host: 'localhost', dialect: 'mysql'
+const connection = new Sequelize('nfl', 'football', 'F00tB4LL!', {
+  host: 'localhost', dialect: 'mysql',
 })
 
-const teams = teamsModel(connection, Sequelize)
+const Teams = TeamsModel(connection, Sequelize)
 
-module.exports = { teams }
+module.exports = { Teams }
