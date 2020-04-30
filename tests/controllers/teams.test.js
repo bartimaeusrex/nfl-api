@@ -1,0 +1,58 @@
+const chai = require('chai')
+const sinon = require('sinon')
+const sinonChai = require('sinon-chai')
+const models = require('../../models')
+const { describe, it } = require('mocha')
+const { teamsList, singleTeam } = require('../mocks/teams')
+const { getAllTeams, getTeamById, saveNewTeam } = require('../../controllers/teams')
+
+chai.use(sinonChai)
+const { expect } = chai
+
+describe('Controllers - teams', () => {
+  describe('getAllTeams', () => {
+    it('retrieves a list of teams from the database and calls response.send() with the list', async () => {
+      const stubbedFindAll = sinon.stub(models.teams, 'findAll').returns(teamsList) // wrapping the findAll() function
+      const stubbedSend = sinon.stub()
+      const response = { send: stubbedSend }
+
+      await getAllTeams({}, response)
+
+      expect(stubbedSend).to.have.callCount(1) // asserting that the stub function actually got called
+      expect(stubbedSend).to.have.been.calledWith(teamsList)
+    })
+  })
+
+  describe('getTeamById', () => {
+    // eslint-disable-next-line max-len
+    it('retrieves the team associated with the provided slug from the database and calls response.send with it', async () => {
+      const request = { params: { id: 2 } }
+      const stubbedFindOne = sinon.stub(models.teams, 'findOne').returns(singleTeam) // setup singleTeam in mock
+      const stubbedSend = sinon.stub()
+      const response = { send: stubbedSend }
+
+      await getTeamById(request, response)
+
+      expect(stubbedFindOne).to.have.been.calledWith({ where: { id: 2 } })
+      expect(stubbedSend).to.have.been.calledWith(singleTeam) // setup singleTeam in mock
+    })
+  })
+
+
+  describe('saveNewTeam', () => {
+    // eslint-disable-next-line max-len
+    it('accepts new hero details and saves them as a new hero, returning the saved record with a 201 status', async () => {
+      const request = { body: singleTeam }
+      const stubbedSend = sinon.stub()
+      const stubbedStatus = sinon.stub().returns({ send: stubbedSend })
+      const response = { status: stubbedStatus }
+      const stubbedCreate = sinon.stub(models.teams, 'create').returns(singleTeam)
+
+      await saveNewTeam(request, response)
+
+      expect(stubbedCreate).to.have.been.calledWith(singleTeam)
+      expect(stubbedStatus).to.have.been.calledWith(201)
+      expect(stubbedSend).to.have.been.calledWith(singleTeam)
+    })
+  })
+})
