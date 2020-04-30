@@ -3,7 +3,7 @@ const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 const models = require('../../models')
 const { describe, it } = require('mocha')
-const { teamsList, singleTeam } = require('../mocks/teams')
+const { teamsList, singleTeam, postedTeam } = require('../mocks/teams')
 const { getAllTeams, getTeamById, saveNewTeam } = require('../../controllers/teams')
 
 chai.use(sinonChai)
@@ -25,15 +25,15 @@ describe('Controllers - teams', () => {
 
   describe('getTeamById', () => {
     // eslint-disable-next-line max-len
-    it('retrieves the team associated with the provided slug from the database and calls response.send with it', async () => {
-      const request = { params: { id: 2 } }
+    it('retrieves the team associated with the provided id from the database and calls response.send with it', async () => {
+      const request = { params: { id: '13' } }
       const stubbedFindOne = sinon.stub(models.Teams, 'findOne').returns(singleTeam)
       const stubbedSend = sinon.stub()
       const response = { send: stubbedSend }
 
       await getTeamById(request, response)
 
-      expect(stubbedFindOne).to.have.been.calledWith({ where: { id: 2 } })
+      expect(stubbedFindOne).to.have.been.calledWith({ where: { id: '13' } })
       expect(stubbedSend).to.have.been.calledWith(singleTeam)
     })
   })
@@ -41,8 +41,8 @@ describe('Controllers - teams', () => {
 
   describe('saveNewTeam', () => {
     // eslint-disable-next-line max-len
-    it('accepts new hero details and saves them as a new hero, returning the saved record with a 201 status', async () => {
-      const request = { body: singleTeam }
+    it('accepts new team details and saves them as a new team, returning the saved record with a 201 status', async () => {
+      const request = { body: postedTeam }
       const stubbedSend = sinon.stub()
       const stubbedStatus = sinon.stub().returns({ send: stubbedSend })
       const response = { status: stubbedStatus }
@@ -50,7 +50,7 @@ describe('Controllers - teams', () => {
 
       await saveNewTeam(request, response)
 
-      expect(stubbedCreate).to.have.been.calledWith(singleTeam)
+      expect(stubbedCreate).to.have.been.calledWith(postedTeam)
       expect(stubbedStatus).to.have.been.calledWith(201)
       expect(stubbedSend).to.have.been.calledWith(singleTeam)
     })

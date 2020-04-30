@@ -1,3 +1,11 @@
+const postedTeam = {
+  location: 'Buffalo',
+  mascot: 'Bills',
+  abbreviation: 'BUF',
+  conference: 'AFC',
+  division: 'East'
+}
+
 const teamsList = [{
   id: 1,
   location: 'Buffalo',
@@ -21,16 +29,17 @@ const teamsList = [{
   division: 'East'
 }]
 
-const singleTeam = [{
-  id: 2,
-  location: 'Miami',
-  mascot: 'Dolphins',
-  abbreviation: 'MIA',
+const singleTeam = {
+  id: 13,
+  location: 'Denver',
+  mascot: 'Broncos',
+  abbreviation: 'DEN',
   conference: 'AFC',
-  division: 'East'
-}]
+  division: 'West',
+}
 
 module.exports = {
   teamsList,
-  singleTeam
+  singleTeam,
+  postedTeam
 }
