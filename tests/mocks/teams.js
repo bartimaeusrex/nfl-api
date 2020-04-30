@@ -30,4 +30,7 @@ const singleTeam = [{
   division: 'East'
 }]
 
-module.exports = teamsList
+module.exports = {
+  teamsList,
+  singleTeam
+}
